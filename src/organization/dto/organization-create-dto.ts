@@ -1,19 +1,9 @@
-import { IsString, IsUrl, IsOptional, Length } from 'class-validator';
+import { OrganizationEntity } from '../organization.entity';
+import { PickType } from '@nestjs/swagger';
 
-export class OrganizationCreateDto {
-  @IsString()
-  name: string;
-
-  @IsOptional()
-  @IsUrl()
-  logoUrl: string;
-
-  @Length(14)
-  @IsString()
-  cnpj: string;
-
-  @Length(13)
-  @IsOptional()
-  @IsString()
-  phone: string;
-}
+export class OrganizationCreateDto extends PickType(OrganizationEntity, [
+  'name',
+  'cnpj',
+  'logoUrl',
+  'phone',
+]) {}
