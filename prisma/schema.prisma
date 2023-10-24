@@ -16,6 +16,19 @@ enum UserRole {
   ORG_STUDENT
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Ethnicity {
+  BRANCO
+  NEGRO
+  AMERELO
+  PARDO
+  INDIGENA
+}
+
 model Organization {
   id String @id @default(uuid())
   name String 
@@ -23,6 +36,7 @@ model Organization {
   cnpj String
   phone String?
   User User[]
+  student Student[]
 
   @@map("organization")
 }
@@ -38,4 +52,21 @@ model User {
   avatarUrl String?
   role UserRole
   @@map("user")
+}
+
+model Student {
+  id String @id @default(uuid())
+  organization Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  name String
+  rg String?
+  cpf String?
+  nis String?
+  gender Gender
+  ethnicity Ethnicity
+  dateOfBirth DateTime
+  primary_phone String?
+  secondary_phone String?
+  
+  @@map("student")
 }
