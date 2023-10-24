@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
-import { SingInDto, SingInResponseDto } from './dto';
+import { SingInDto, SingInResponseDto, JwtPayloadDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
@@ -24,7 +24,7 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials');
     }
 
-    const payload = {
+    const payload: JwtPayloadDto = {
       id: user.id,
       organizationId: user.organizationId,
       role: user.role,
