@@ -30,57 +30,58 @@ enum Ethnicity {
 }
 
 model Organization {
-  id String @id @default(uuid())
-  name String 
+  id      String    @id @default(uuid())
+  name    String
   logoUrl String?
-  cnpj String
-  phone String?
-  User User[]
+  cnpj    String
+  phone   String?
+  User    User[]
   student Student[]
-  class Class[]
+  class   Class[]
 
   @@map("organization")
 }
 
-
 model User {
-  id String @id @default(uuid())
-  organization Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?
-  name String
-  email String
-  password String
-  avatarUrl String?
-  role UserRole
-  userClasses    UserClasses[] 
+  id              String            @id @default(uuid())
+  organization    Organization?     @relation(fields: [organizationId], references: [id])
+  organizationId  String?
+  name            String
+  email           String
+  password        String
+  avatarUrl       String?
+  role            UserRole
+  userClasses     UserClasses[]
+  studentComments StudentComments[]
 
   @@map("user")
 }
 
 model Student {
-  id String @id @default(uuid())
-  organization Organization @relation(fields: [organizationId], references: [id])
-  organizationId String
-  name String
-  rg String?
-  cpf String?
-  nis String?
-  gender Gender
-  ethnicity Ethnicity
-  dateOfBirth DateTime
-  primary_phone String?
+  id              String            @id @default(uuid())
+  organization    Organization      @relation(fields: [organizationId], references: [id])
+  organizationId  String
+  name            String
+  rg              String?
+  cpf             String?
+  nis             String?
+  gender          Gender
+  ethnicity       Ethnicity
+  dateOfBirth     DateTime
+  primary_phone   String?
   secondary_phone String?
   studentClasses  StudentClasses[]
-  
+  studentComments StudentComments[]
+
   @@map("student")
 }
 
 model Class {
-  id String @id @default(uuid())
-  organization Organization @relation(fields: [organizationId], references: [id])
+  id             String           @id @default(uuid())
+  organization   Organization     @relation(fields: [organizationId], references: [id])
   organizationId String
-  name String
-  logoUrl String?
+  name           String
+  logoUrl        String?
   studentClass   StudentClasses[]
   userClasses    UserClasses[]
 
@@ -88,21 +89,34 @@ model Class {
 }
 
 model StudentClasses {
-  id String @id @default(uuid())
+  id        String  @id @default(uuid())
   student   Student @relation(fields: [studentId], references: [id])
   studentId String
   class     Class   @relation(fields: [classId], references: [id])
   classId   String
- 
+
   @@map("student_classes")
 }
 
 model UserClasses {
-  id String @id @default(uuid())
+  id      String @id @default(uuid())
   user    User   @relation(fields: [userId], references: [id])
   userId  String
   class   Class  @relation(fields: [classId], references: [id])
-  classId String  
-  
+  classId String
+
   @@map("user_classes")
+}
+
+model StudentComments {
+  id        String   @id @default(uuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("student_comments")
 }
