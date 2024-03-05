@@ -43,36 +43,38 @@ model Organization {
 }
 
 model User {
-  id              String            @id @default(uuid())
-  organization    Organization?     @relation(fields: [organizationId], references: [id])
-  organizationId  String?
-  name            String
-  email           String
-  password        String
-  avatarUrl       String?
-  role            UserRole
-  userClasses     UserClasses[]
-  studentComments StudentComments[]
+  id                String              @id @default(uuid())
+  organization      Organization?       @relation(fields: [organizationId], references: [id])
+  organizationId    String?
+  name              String
+  email             String
+  password          String
+  avatarUrl         String?
+  role              UserRole
+  userClasses       UserClasses[]
+  studentComments   StudentComments[]
+  StudentsDocuments StudentsDocuments[]
 
   @@map("user")
 }
 
 model Student {
-  id              String            @id @default(uuid())
-  organization    Organization      @relation(fields: [organizationId], references: [id])
-  organizationId  String
-  name            String
-  rg              String?
-  cpf             String?
-  nis             String?
-  gender          Gender
-  ethnicity       Ethnicity
-  dateOfBirth     DateTime
-  primary_phone   String?
-  secondary_phone String?
-  studentClasses  StudentClasses[]
-  studentComments StudentComments[]
-  classAttendance ClassAttendance[]
+  id                String              @id @default(uuid())
+  organization      Organization        @relation(fields: [organizationId], references: [id])
+  organizationId    String
+  name              String
+  rg                String?
+  cpf               String?
+  nis               String?
+  gender            Gender
+  ethnicity         Ethnicity
+  dateOfBirth       DateTime
+  primary_phone     String?
+  secondary_phone   String?
+  studentClasses    StudentClasses[]
+  studentComments   StudentComments[]
+  classAttendance   ClassAttendance[]
+  StudentsDocuments StudentsDocuments[]
 
   @@map("student")
 }
@@ -134,4 +136,16 @@ model ClassAttendance {
   observations String?
 
   @@map("class_attendance")
+}
+
+model StudentsDocuments {
+  id        String  @id @default(uuid())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  student   Student @relation(fields: [studentId], references: [id])
+  studentId String
+  title     String
+  document  String
+
+  @@map("student_documents")
 }
