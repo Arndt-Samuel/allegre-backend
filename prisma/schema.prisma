@@ -72,18 +72,20 @@ model Student {
   secondary_phone String?
   studentClasses  StudentClasses[]
   studentComments StudentComments[]
+  classAttendance ClassAttendance[]
 
   @@map("student")
 }
 
 model Class {
-  id             String           @id @default(uuid())
-  organization   Organization     @relation(fields: [organizationId], references: [id])
-  organizationId String
-  name           String
-  logoUrl        String?
-  studentClass   StudentClasses[]
-  userClasses    UserClasses[]
+  id              String            @id @default(uuid())
+  organization    Organization      @relation(fields: [organizationId], references: [id])
+  organizationId  String
+  name            String
+  logoUrl         String?
+  studentClass    StudentClasses[]
+  userClasses     UserClasses[]
+  classAttendance ClassAttendance[]
 
   @@map("class")
 }
@@ -119,4 +121,17 @@ model StudentComments {
   updatedAt DateTime @updatedAt
 
   @@map("student_comments")
+}
+
+model ClassAttendance {
+  id           String   @id @default(uuid())
+  class        Class    @relation(fields: [classId], references: [id])
+  classId      String
+  student      Student  @relation(fields: [studentId], references: [id])
+  studentId    String
+  dateOfClass  DateTime @default(now())
+  isPresent    Boolean
+  observations String?
+
+  @@map("class_attendance")
 }
