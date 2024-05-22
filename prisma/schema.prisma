@@ -29,6 +29,15 @@ enum Ethnicity {
   INDIGENA
 }
 
+enum EducationLevel {
+  NAO_ALFABETIZADA
+  E_F_COMPLETO
+  E_F_INCOMPLETO
+  E_M_COMPLETO
+  E_M_INCOMPLETO
+  SUPERIOR
+}
+
 model Organization {
   id      String    @id @default(uuid())
   name    String
@@ -59,22 +68,23 @@ model User {
 }
 
 model Student {
-  id                String              @id @default(uuid())
-  organization      Organization        @relation(fields: [organizationId], references: [id])
-  organizationId    String
-  name              String
-  rg                String?
-  cpf               String?
-  nis               String?
-  gender            Gender
-  ethnicity         Ethnicity
-  dateOfBirth       DateTime
-  primary_phone     String?
-  secondary_phone   String?
-  studentClasses    StudentClasses[]
-  studentComments   StudentComments[]
-  classAttendance   ClassAttendance[]
-  StudentsDocuments StudentsDocuments[]
+  id                 String               @id @default(uuid())
+  organization       Organization         @relation(fields: [organizationId], references: [id])
+  organizationId     String
+  name               String
+  rg                 String?
+  cpf                String?
+  nis                String?
+  gender             Gender
+  ethnicity          Ethnicity
+  dateOfBirth        DateTime
+  primary_phone      String?
+  secondary_phone    String?
+  studentClasses     StudentClasses[]
+  studentComments    StudentComments[]
+  classAttendance    ClassAttendance[]
+  StudentsDocuments  StudentsDocuments[]
+  StudentResponsible StudentResponsible[]
 
   @@map("student")
 }
@@ -148,4 +158,25 @@ model StudentsDocuments {
   document  String
 
   @@map("student_documents")
+}
+
+model StudentResponsible {
+  id              String         @id @default(uuid())
+  name            String
+  rg              String?
+  cpf             String?
+  nis             String?
+  gender          Gender
+  ethnicity       Ethnicity
+  dateOfBirth     DateTime
+  birth_state     String?
+  born_city       String?
+  current_job     String?
+  primary_phone   String?
+  secondary_phone String?
+  education_level EducationLevel
+  student         Student        @relation(fields: [studentId], references: [id])
+  studentId       String
+
+  @@map("student_responsible")
 }

@@ -32,7 +32,7 @@ export class StudentDocumentsController {
     description: 'Created new document student',
     type: StudentsDocumentsEntity,
   })
-  async createStudentComment(
+  async createStudentDocuments(
     @Body() data: StudentsDocumentsCreateDto,
     @LoggedUser() { id }: UserEntity,
   ) {
@@ -53,7 +53,7 @@ export class StudentDocumentsController {
     type: StudentsDocumentsEntity,
     isArray: true,
   })
-  async getComments(@Param('id') studentId: string) {
+  async getDocuments(@Param('id') studentId: string) {
     return this.studentDocumentsService.find({ studentId });
   }
 

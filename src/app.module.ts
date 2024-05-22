@@ -8,6 +8,7 @@ import { StudentClassesModule } from './student-classes';
 import { StudentCommentsModule } from './student-comments/student-comments.module';
 import { ClassAttendanceModule } from './class-attendance/class-attendance.module';
 import { StudentDocumentsModule } from './student-documents';
+import { StudentResponsibleModule } from './student-responsible';
 @Module({
   imports: [
     OrganizationModule,
@@ -19,6 +20,7 @@ import { StudentDocumentsModule } from './student-documents';
     StudentCommentsModule,
     ClassAttendanceModule,
     StudentDocumentsModule,
+    StudentResponsibleModule,
   ],
 })
 export class AppModule {}
