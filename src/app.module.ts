@@ -9,6 +9,7 @@ import { StudentCommentsModule } from './student-comments/student-comments.modul
 import { ClassAttendanceModule } from './class-attendance/class-attendance.module';
 import { StudentDocumentsModule } from './student-documents';
 import { StudentResponsibleModule } from './student-responsible';
+import { StudentSchoolDataModule } from './student-school-data';
 @Module({
   imports: [
     OrganizationModule,
@@ -21,6 +22,7 @@ import { StudentResponsibleModule } from './student-responsible';
     ClassAttendanceModule,
     StudentDocumentsModule,
     StudentResponsibleModule,
+    StudentSchoolDataModule,
   ],
 })
 export class AppModule {}

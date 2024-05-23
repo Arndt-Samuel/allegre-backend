@@ -85,6 +85,7 @@ model Student {
   classAttendance    ClassAttendance[]
   StudentsDocuments  StudentsDocuments[]
   StudentResponsible StudentResponsible[]
+  StudentSchoolData  StudentSchoolData[]
 
   @@map("student")
 }
@@ -179,4 +180,16 @@ model StudentResponsible {
   studentId       String
 
   @@map("student_responsible")
+}
+
+model StudentSchoolData {
+  id                    String  @id @default(uuid())
+  SchoolName            String?
+  SchoolGrade           String?
+  FavoriteSchoolSubject String?
+  SchoolObservations    String?
+  student               Student @relation(fields: [studentId], references: [id])
+  studentId             String
+
+  @@map("student_school_data")
 }
