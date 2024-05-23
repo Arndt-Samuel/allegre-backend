@@ -86,25 +86,26 @@ model User {
 }
 
 model Student {
-  id                 String               @id @default(uuid())
-  organization       Organization         @relation(fields: [organizationId], references: [id])
-  organizationId     String
-  name               String
-  rg                 String?
-  cpf                String?
-  nis                String?
-  gender             Gender
-  ethnicity          Ethnicity
-  dateOfBirth        DateTime
-  primary_phone      String?
-  secondary_phone    String?
-  studentClasses     StudentClasses[]
-  studentComments    StudentComments[]
-  classAttendance    ClassAttendance[]
-  StudentsDocuments  StudentsDocuments[]
-  StudentResponsible StudentResponsible[]
-  StudentSchoolData  StudentSchoolData[]
-  StudentStatus      StudentStatus[]
+  id                       String                     @id @default(uuid())
+  organization             Organization               @relation(fields: [organizationId], references: [id])
+  organizationId           String
+  name                     String
+  rg                       String?
+  cpf                      String?
+  nis                      String?
+  gender                   Gender
+  ethnicity                Ethnicity
+  dateOfBirth              DateTime
+  primary_phone            String?
+  secondary_phone          String?
+  studentClasses           StudentClasses[]
+  studentComments          StudentComments[]
+  classAttendance          ClassAttendance[]
+  StudentsDocuments        StudentsDocuments[]
+  StudentResponsible       StudentResponsible[]
+  StudentSchoolData        StudentSchoolData[]
+  StudentStatus            StudentStatus[]
+  StudentComplementaryData StudentComplementaryData[]
 
   @@map("student")
 }
@@ -229,4 +230,16 @@ model StudentStatus {
   studentId                    String
 
   @@map("student_status")
+}
+
+model StudentComplementaryData {
+  id                        String  @id @default(uuid())
+  likeMoreInProject         String?
+  dream                     String?
+  health                    String?
+  healthProblemsOrAllergies String?
+  student                   Student @relation(fields: [studentId], references: [id])
+  studentId                 String
+
+  @@map("student_complementary_data")
 }

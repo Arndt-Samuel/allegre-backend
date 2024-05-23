@@ -11,6 +11,7 @@ import { StudentDocumentsModule } from './student-documents';
 import { StudentResponsibleModule } from './student-responsible';
 import { StudentSchoolDataModule } from './student-school-data';
 import { StudentStatusModule } from './student-status';
+import { StudentComplementaryDataModule } from './student-complementary-data';
 @Module({
   imports: [
     OrganizationModule,
@@ -25,6 +26,7 @@ import { StudentStatusModule } from './student-status';
     StudentResponsibleModule,
     StudentSchoolDataModule,
     StudentStatusModule,
+    StudentComplementaryDataModule,
   ],
 })
 export class AppModule {}
