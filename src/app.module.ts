@@ -10,6 +10,7 @@ import { ClassAttendanceModule } from './class-attendance/class-attendance.modul
 import { StudentDocumentsModule } from './student-documents';
 import { StudentResponsibleModule } from './student-responsible';
 import { StudentSchoolDataModule } from './student-school-data';
+import { StudentStatusModule } from './student-status';
 @Module({
   imports: [
     OrganizationModule,
@@ -23,6 +24,7 @@ import { StudentSchoolDataModule } from './student-school-data';
     StudentDocumentsModule,
     StudentResponsibleModule,
     StudentSchoolDataModule,
+    StudentStatusModule,
   ],
 })
 export class AppModule {}

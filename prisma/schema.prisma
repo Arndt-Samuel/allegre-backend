@@ -30,12 +30,30 @@ enum Ethnicity {
 }
 
 enum EducationLevel {
-  NAO_ALFABETIZADA
-  E_F_COMPLETO
-  E_F_INCOMPLETO
-  E_M_COMPLETO
-  E_M_INCOMPLETO
+  NAO_ALFABETIZADA @map("Não alfabetizada")
+  E_F_COMPLETO     @map("E.F. COMPLETO")
+  E_F_INCOMPLETO   @map("E.F. INCOMPLETO")
+  E_M_COMPLETO     @map("E.M. COMPLETO")
+  E_M_INCOMPLETO   @map("E.M. INCOMPLETO")
   SUPERIOR
+}
+
+enum ClothingSize {
+  YEAR_2  @map("2")
+  YEAR_4  @map("4")
+  YEAR_6  @map("6")
+  YEAR_8  @map("8")
+  YEAR_10 @map("10")
+  YEAR_12 @map("12")
+  PP
+  P
+  M
+  G
+  GG
+  XG
+  XGG
+  EG
+  EGG
 }
 
 model Organization {
@@ -86,6 +104,7 @@ model Student {
   StudentsDocuments  StudentsDocuments[]
   StudentResponsible StudentResponsible[]
   StudentSchoolData  StudentSchoolData[]
+  StudentStatus      StudentStatus[]
 
   @@map("student")
 }
@@ -192,4 +211,22 @@ model StudentSchoolData {
   studentId             String
 
   @@map("student_school_data")
+}
+
+model StudentStatus {
+  id                           String        @id @default(uuid())
+  familyIncome                 String
+  familyScholarship            Boolean?
+  numberOfAdultsInTheFamily    String
+  numberOfChildrenInTheFamily  String
+  perCapitaIncome              String?
+  collegeEducatedFamilyMembers String
+  benefitsReceived             String?
+  computerAndDigitalEquipment  String?
+  clothingSize                 ClothingSize?
+  shoeSize                     String?
+  student                      Student       @relation(fields: [studentId], references: [id])
+  studentId                    String
+
+  @@map("student_status")
 }
