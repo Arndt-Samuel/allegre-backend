@@ -106,6 +106,7 @@ model Student {
   StudentSchoolData        StudentSchoolData[]
   StudentStatus            StudentStatus[]
   StudentComplementaryData StudentComplementaryData[]
+  StudentAddress           StudentAddress[]
 
   @@map("student")
 }
@@ -242,4 +243,19 @@ model StudentComplementaryData {
   studentId                 String
 
   @@map("student_complementary_data")
+}
+
+model StudentAddress {
+  id                   String  @id @default(uuid())
+  address_street       String?
+  address_number       String?
+  address_complement   String?
+  address_neighborhood String?
+  address_city         String?
+  address_state        String?
+  address_zip          String
+  student              Student @relation(fields: [studentId], references: [id])
+  studentId            String
+
+  @@map("student_address")
 }
