@@ -11,6 +11,7 @@ import {
   Length,
 } from 'class-validator';
 import { OrganizationEntity } from 'src/organization/organization.entity';
+import { UserClassesEntity } from 'src/user-classes/user-classes.entity';
 
 export class UserEntity implements UserModel {
   @ApiPropertyOptional({
@@ -65,4 +66,12 @@ export class UserEntity implements UserModel {
   @Type(() => OrganizationEntity)
   @IsOptional()
   organization?: OrganizationEntity;
+
+  @ApiPropertyOptional({
+    description: 'User Classes',
+    type: () => UserClassesEntity,
+  })
+  @Type(() => UserClassesEntity)
+  @IsOptional()
+  userClasses?: UserClassesEntity;
 }
