@@ -7,15 +7,21 @@ import {
   Param,
   Put,
   Get,
+  Query,
 } from '@nestjs/common';
 import { StudentAddressService } from './student-address.service';
-import { StudentAddressCreateDto, StudentAddressUpdateDto } from './dto';
+import {
+  StudentAddressCreateDto,
+  StudentAddressUpdateDto,
+  StudentAddressFindDto,
+} from './dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { StudentAddressEntity } from './student-address.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from '@prisma/client';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { FindAllResponse } from 'src/shared/types/find-all.types';
 
 @ApiTags('student-address')
 @Controller('student-address')
@@ -29,7 +35,7 @@ export class StudentAddressController {
     UserRole.ORG_MEMBER,
     UserRole.ORG_TEACHER,
   )
-  @Get('/:id')
+  @Get('/')
   @ApiOperation({ summary: 'List address of student' })
   @ApiResponse({
     status: 200,
@@ -37,12 +43,12 @@ export class StudentAddressController {
     type: [StudentAddressEntity],
     isArray: true,
   })
-  async listStudentAddress(
+  async listAll(
     @Request()
     req,
-    @Param('id') studentId: string,
-  ): Promise<StudentAddressEntity[]> {
-    return this.studentAddressService.list({ studentId });
+    @Query() params: StudentAddressFindDto,
+  ): Promise<FindAllResponse<StudentAddressEntity>> {
+    return this.studentAddressService.list(params);
   }
 
   @Roles(

@@ -6,7 +6,13 @@ import {
 import { PrismaService } from '../database/prisma.service';
 import { StudentAddressEntity } from './student-address.entity';
 import { FindAddressService } from 'src/find-address';
-import { StudentAddressCreateDto, StudentAddressUpdateDto } from './dto';
+import {
+  StudentAddressCreateDto,
+  StudentAddressUpdateDto,
+  StudentAddressFindDto,
+} from './dto';
+import { FindAllResponse } from 'src/shared/types/find-all.types';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class StudentAddressService {
@@ -15,14 +21,48 @@ export class StudentAddressService {
     private readonly findAddressService: FindAddressService,
   ) {}
 
-  async list(data: { studentId: string }): Promise<StudentAddressEntity[]> {
-    if (!data || !data.studentId) {
-      throw new BadRequestException('Student ID is required');
-    }
+  async list(
+    params: StudentAddressFindDto,
+  ): Promise<FindAllResponse<StudentAddressEntity>> {
+    const where = {
+      id: params.id || undefined,
+      studentId: params.studentId || undefined,
+      address_street: params.address_street
+        ? {
+            contains: params.address_street,
+            mode: Prisma.QueryMode.insensitive,
+          }
+        : undefined,
+      address_neighborhood: params.address_neighborhood
+        ? {
+            contains: params.address_neighborhood,
+            mode: Prisma.QueryMode.insensitive,
+          }
+        : undefined,
+      address_city: params.address_city
+        ? {
+            contains: params.address_city,
+            mode: Prisma.QueryMode.insensitive,
+          }
+        : undefined,
+      address_state: params.address_state
+        ? {
+            contains: params.address_state,
+            mode: Prisma.QueryMode.insensitive,
+          }
+        : undefined,
+    };
 
-    return this.prisma.studentAddress.findMany({
-      where: data,
-    });
+    const [total, data] = await this.prisma.$transaction([
+      this.prisma.studentAddress.count({ where }),
+      this.prisma.studentAddress.findMany({
+        where: where,
+        take: Number(params.take) || 20,
+        skip: Number(params.skip) || 0,
+      }),
+    ]);
+
+    return { total, data };
   }
 
   async create(data: StudentAddressCreateDto): Promise<StudentAddressEntity> {

@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -14,10 +15,15 @@ import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { LoggedUser } from 'src/user/user.decorator';
 import { UserEntity } from 'src/user/user.entity';
-import { StudentsDocumentsCreateDto, StudentDocumentsUpdateDto } from './dto';
+import {
+  StudentsDocumentsCreateDto,
+  StudentDocumentsUpdateDto,
+  StudentDocumentsFindDto,
+} from './dto';
 import { StudentsDocumentsEntity } from './student-documents.entity';
 import { StudentDocumentsService } from './student-documents.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { FindAllResponse } from 'src/shared/types/find-all.types';
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('student_documents')
@@ -45,7 +51,7 @@ export class StudentDocumentsController {
     UserRole.ORG_MEMBER,
     UserRole.ORG_TEACHER,
   )
-  @Get('/:id')
+  @Get('/')
   @ApiOperation({ summary: 'List all student documents' })
   @ApiResponse({
     status: 200,
@@ -53,8 +59,10 @@ export class StudentDocumentsController {
     type: StudentsDocumentsEntity,
     isArray: true,
   })
-  async getDocuments(@Param('id') studentId: string) {
-    return this.studentDocumentsService.find({ studentId });
+  async listAll(
+    @Query() params: StudentDocumentsFindDto,
+  ): Promise<FindAllResponse<StudentsDocumentsEntity>> {
+    return this.studentDocumentsService.list(params);
   }
 
   @Put('/:id')
