@@ -1,22 +1,17 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { ValidateNested } from 'class-validator';
 import { ClassAttendanceEntity } from '../class-attendance.entity';
-import { ApiPropertyOptional, PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { UpdateStudentAttendanceDto } from './update-student-attendance.dto';
 
 export class ClassAttendanceUpdateDto extends PickType(ClassAttendanceEntity, [
   'classId',
-  'studentId',
 ]) {
-  @ApiPropertyOptional({
-    description: 'Observations',
+  @ApiProperty({
+    description: 'List of student attendances',
+    type: [UpdateStudentAttendanceDto],
   })
-  @IsString()
-  @IsOptional()
-  observations: string;
-
-  @ApiPropertyOptional({
-    description: 'isPresent',
-  })
-  @IsBoolean()
-  @IsOptional()
-  isPresent: boolean;
+  @ValidateNested({ each: true })
+  @Type(() => UpdateStudentAttendanceDto)
+  students: UpdateStudentAttendanceDto[];
 }

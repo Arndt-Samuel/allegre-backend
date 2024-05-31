@@ -69,13 +69,12 @@ export class ClassAttendanceController {
   @ApiResponse({
     status: 200,
     description: 'Attendance updated',
-    type: ClassAttendanceEntity,
+    type: [ClassAttendanceEntity],
   })
   async update(
-    @Param('id') StudentAttendanceId: string,
-    @Body()
-    data: ClassAttendanceUpdateDto,
-  ): Promise<ClassAttendanceEntity> {
-    return this.classAttendanceService.update(StudentAttendanceId, data);
+    @Param('id') attendanceId: string,
+    @Body() data: ClassAttendanceUpdateDto,
+  ): Promise<ClassAttendanceEntity[]> {
+    return this.classAttendanceService.update(attendanceId, data);
   }
 }
