@@ -9,6 +9,7 @@ import {
   IsEmail,
   IsEnum,
   Length,
+  IsDateString,
 } from 'class-validator';
 import { OrganizationEntity } from 'src/organization/organization.entity';
 import { UserClassesEntity } from 'src/user-classes/user-classes.entity';
@@ -44,6 +45,20 @@ export class UserEntity implements UserModel {
   @IsOptional()
   @IsUrl()
   avatarUrl: string;
+
+  @ApiPropertyOptional({
+    description: 'Forgot password token',
+  })
+  @IsOptional()
+  @IsString()
+  forgotPasswordToken: string;
+
+  @ApiPropertyOptional({
+    description: 'Forgot password sent date',
+  })
+  @IsOptional()
+  @IsDateString()
+  forgotPasswordSentAt: Date;
 
   @ApiProperty({
     description: 'User Role',
